@@ -20,3 +20,22 @@ export interface ILoginResponse {
   accessToken: string;
   user: IUserResponse;
 }
+
+export interface IChangePasswordPayload {
+  oldPassword: string;
+  newPassword: string;
+}
+
+export interface IForgotPasswordPayload {
+  email: string;
+}
+
+export interface IVerifyResetCodePayload {
+  email: string;
+  code: string;
+}
+
+export interface IResetPasswordPayload {
+  token: string;
+  newPassword: string;
+}

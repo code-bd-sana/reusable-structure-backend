@@ -29,7 +29,16 @@ const config = {
   },
   jwt: {
     accessSecret: jwtAccessSecret ?? 'development-only-secret',
-    accessExpiresIn: (process.env.JWT_ACCESS_EXPIRES_IN ?? '1d') as SignOptions['expiresIn']
+    accessExpiresIn: (process.env.JWT_ACCESS_EXPIRES_IN ?? '1d') as SignOptions['expiresIn'],
+    resetSecret: process.env.JWT_RESET_SECRET ?? 'development-reset-secret',
+    resetExpiresIn: (process.env.JWT_RESET_EXPIRES_IN ?? '15m') as SignOptions['expiresIn']
+  },
+  smtp: {
+    host: process.env.SMTP_HOST ?? 'smtp.ethereal.email',
+    port: parseNumber(process.env.SMTP_PORT, 587),
+    user: process.env.SMTP_USER ?? '',
+    pass: process.env.SMTP_PASS ?? '',
+    from: process.env.SMTP_FROM ?? 'noreply@example.com'
   }
 };
 

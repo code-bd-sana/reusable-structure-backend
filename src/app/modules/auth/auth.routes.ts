@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import rateLimit from 'express-rate-limit';
 
+import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
 import { AuthController } from './auth.controller';
 import { AuthValidation } from './auth.validation';
@@ -20,5 +21,33 @@ const authRateLimiter = rateLimit({
 
 router.post('/register', authRateLimiter, validateRequest(AuthValidation.register), AuthController.register);
 router.post('/login', authRateLimiter, validateRequest(AuthValidation.login), AuthController.login);
+
+router.post(
+  '/change-password',
+  auth('USER', 'ADMIN'),
+  validateRequest(AuthValidation.changePassword),
+  AuthController.changePassword
+);
+
+router.post(
+  '/forgot-password',
+  authRateLimiter,
+  validateRequest(AuthValidation.forgotPassword),
+  AuthController.forgotPassword
+);
+
+router.post(
+  '/verify-reset-code',
+  authRateLimiter,
+  validateRequest(AuthValidation.verifyResetCode),
+  AuthController.verifyResetCode
+);
+
+router.post(
+  '/reset-password',
+  authRateLimiter,
+  validateRequest(AuthValidation.resetPassword),
+  AuthController.resetPassword
+);
 
 export const AuthRoutes = router;

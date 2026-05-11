@@ -1,22 +1,25 @@
 import app from './app';
 import config from './app/config';
-import prisma from './app/utils/prisma';
+import { logger } from './app/utils/logger';
+import prisma, { pool } from './app/utils/prisma';
 
 const server = app.listen(config.port);
 
 server.on('listening', () => {
-  console.log(`Server is running on port ${config.port}`);
+  logger.info(`Server is running on port ${config.port}`);
 });
 
 server.on('error', (error: NodeJS.ErrnoException) => {
-  console.error(`Failed to start server on port ${config.port}:`, error.message);
+  logger.error(`Failed to start server on port ${config.port}:`, error);
   process.exit(1);
 });
 
 const shutdown = async (signal: string): Promise<void> => {
-  console.log(`${signal} received. Shutting down gracefully.`);
+  logger.info(`${signal} received. Shutting down gracefully.`);
   server.close(async () => {
     await prisma.$disconnect();
+    await pool.end();
+    logger.info('Database connection closed.');
     process.exit(0);
   });
 };
@@ -30,11 +33,11 @@ process.on('SIGINT', () => {
 });
 
 process.on('unhandledRejection', (reason) => {
-  console.error('Unhandled rejection:', reason);
+  logger.error('Unhandled rejection:', reason);
   void shutdown('unhandledRejection');
 });
 
 process.on('uncaughtException', (error) => {
-  console.error('Uncaught exception:', error);
+  logger.error('Uncaught exception:', error);
   void shutdown('uncaughtException');
 });

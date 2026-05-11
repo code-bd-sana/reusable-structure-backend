@@ -9,7 +9,7 @@ import type {
   IUserLoginPayload,
   IUserRegisterPayload,
   IUserResponse
-} from './user.interface';
+} from './auth.interface';
 
 type UserRecord = {
   id: string;
@@ -23,7 +23,7 @@ const sanitizeUser = (user: UserRecord): IUserResponse => ({
   role: user.role
 });
 
-const registerUser = async (payload: IUserRegisterPayload): Promise<IUserResponse> => {
+const register = async (payload: IUserRegisterPayload): Promise<IUserResponse> => {
   const existingUser = await prisma.user.findUnique({
     where: {
       email: payload.email
@@ -51,7 +51,7 @@ const registerUser = async (payload: IUserRegisterPayload): Promise<IUserRespons
   return sanitizeUser(user);
 };
 
-const loginUser = async (payload: IUserLoginPayload): Promise<ILoginResponse> => {
+const login = async (payload: IUserLoginPayload): Promise<ILoginResponse> => {
   const user = await prisma.user.findUnique({
     where: {
       email: payload.email
@@ -84,7 +84,7 @@ const loginUser = async (payload: IUserLoginPayload): Promise<ILoginResponse> =>
   };
 };
 
-export const UserService = {
-  registerUser,
-  loginUser
+export const AuthService = {
+  register,
+  login
 };

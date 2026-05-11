@@ -12,7 +12,9 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "declaration": true,
-    "noImplicitReturns": true
+    "noImplicitReturns": true,
+    "isolatedModules": true,
+    "types": ["node", "jest"]
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist"]

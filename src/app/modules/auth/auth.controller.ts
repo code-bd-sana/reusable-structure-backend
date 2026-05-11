@@ -2,10 +2,10 @@ import type { RequestHandler } from 'express';
 
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
-import { UserService } from './user.service';
+import { AuthService } from './auth.service';
 
-const registerUser: RequestHandler = catchAsync(async (req, res) => {
-  const result = await UserService.registerUser(req.body);
+const register: RequestHandler = catchAsync(async (req, res) => {
+  const result = await AuthService.register(req.body);
 
   sendResponse(res, {
     statusCode: 201,
@@ -15,8 +15,8 @@ const registerUser: RequestHandler = catchAsync(async (req, res) => {
   });
 });
 
-const loginUser: RequestHandler = catchAsync(async (req, res) => {
-  const result = await UserService.loginUser(req.body);
+const login: RequestHandler = catchAsync(async (req, res) => {
+  const result = await AuthService.login(req.body);
 
   sendResponse(res, {
     statusCode: 200,
@@ -26,7 +26,7 @@ const loginUser: RequestHandler = catchAsync(async (req, res) => {
   });
 });
 
-export const UserController = {
-  registerUser,
-  loginUser
+export const AuthController = {
+  register,
+  login
 };

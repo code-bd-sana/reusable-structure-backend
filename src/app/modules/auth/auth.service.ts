@@ -19,12 +19,14 @@ import type {
 
 type UserRecord = {
   id: string;
+  name: string;
   email: string;
-  role: 'USER' | 'ADMIN';
+  role: 'USER' | 'MANAGER' | 'ADMIN';
 };
 
 const sanitizeUser = (user: UserRecord): IUserResponse => ({
   id: user.id,
+  name: user.name,
   email: user.email,
   role: user.role
 });
@@ -44,11 +46,14 @@ const register = async (payload: IUserRegisterPayload): Promise<IUserResponse> =
 
   const user = await prisma.user.create({
     data: {
+      name: payload.name,
       email: payload.email,
-      password: hashedPassword
+      password: hashedPassword,
+      role: payload.role ?? 'USER'
     },
     select: {
       id: true,
+      name: true,
       email: true,
       role: true
     }

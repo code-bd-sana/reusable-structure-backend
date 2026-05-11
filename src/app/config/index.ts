@@ -33,6 +33,10 @@ const config = {
     resetSecret: process.env.JWT_RESET_SECRET ?? 'development-reset-secret',
     resetExpiresIn: (process.env.JWT_RESET_EXPIRES_IN ?? '15m') as SignOptions['expiresIn']
   },
+  admin: {
+    email: process.env.ADMIN_EMAIL ?? 'admin@example.com',
+    password: process.env.ADMIN_PASSWORD ?? 'admin123'
+  },
   smtp: {
     host: process.env.SMTP_HOST ?? 'smtp.ethereal.email',
     port: parseNumber(process.env.SMTP_PORT, 587),

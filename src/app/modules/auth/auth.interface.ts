@@ -1,8 +1,10 @@
 import type { UserRole } from '../../interfaces/auth.interface';
 
 export interface IUserRegisterPayload {
+  name: string;
   email: string;
   password: string;
+  role?: 'USER' | 'MANAGER';
 }
 
 export interface IUserLoginPayload {
@@ -12,6 +14,7 @@ export interface IUserLoginPayload {
 
 export interface IUserResponse {
   id: string;
+  name: string;
   email: string;
   role: UserRole;
 }

@@ -8,6 +8,7 @@ datasource db {
 
 model User {
   id                   String    @id @default(uuid())
+  name                 String
   email                String    @unique
   password             String
   role                 Role      @default(USER)
@@ -21,5 +22,6 @@ model User {
 
 enum Role {
   USER
+  MANAGER
   ADMIN
 }
